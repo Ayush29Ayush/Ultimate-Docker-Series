@@ -1,1 +1,130 @@
 #! Ultimate Docker Series Notes
+
+#! Introduction
+This is a zero to hero tutorial on how to build and run containers in docker.
+* We will cover learn docker with full stack application consisting of Frontend, Backend and Database.
+* This will be a highly comprehensive and practical tutorial.
+
+#! Prerequisites
+1. No pre-requisites required.
+2. Knowledge of basic Frontend, Backend and Database.
+3. Basic familiarity with Git.
+
+#! How to follow this course
+1. Make notes 
+2. Keywords
+3. Play along with the commands
+
+---------------------------------------------------------------------------
+
+#* Section - 1 - Docker Basics
+* What is Docker?
+* Virtual Machine vs containers
+* Architecture of Docker
+* Installing Docker
+* Development Workflow
+
+#! What is Docker?
+Docker is an open-source platform that automates the deployment, scaling, and management of applications using containerization technology. Containers allow developers to package up an application with all its dependencies into a standardized unit for software development. This ensures that the application runs quickly and reliably from one computing environment to another.
+
+** Key Concepts
+Container: A lightweight, standalone, executable package that includes everything needed to run a piece of software, including the code, a runtime, libraries, environment variables, and config files.
+Image: A read-only template with instructions for creating a Docker container. Images are built from a "Dockerfile" which contains a list of commands that the Docker daemon uses to build an image.
+Docker Daemon: The background service running on the host that manages building, running, and distributing Docker containers.
+Docker Client: The command-line tool or API that allows users to talk to the Docker daemon.
+
+#TODO => Refer the architecture diagram of Docker
+
+* A platform for building, running, and shipping applications
+* Prevents the issue of "It works on my machine..."
+Solves issues like:
+a) One or more files missing
+b) Software version mismatch
+c) Different configuration settings
+
+* With docker, we can easily package up our application and run it on any machine.
+* If someone new joins the team, they can install docker and run their application.
+
+* docker-compose up => used to run multiple containers
+* docker-compose down => used to stop multiple containers
+* docker-compose dowm -rmi all => used to stop and remove all containers
+
+#! Virtual Machine vs containers
+* Virtual Machine: A physical machine that is used for running applications in a virtualized environment. This is used in a variety of applications.
+* Container: A lightweight, standalone, executable package that includes everything needed to run a piece of software, including the code, a runtime, libraries, environment variables, and config files.
+
+Problems with Virtual Machine:
+a) Each VM needs a full-blown OS
+b) Slow to start
+c) Resource intensive
+
+Benifits of Containers:
+a) Allow running multiple apps in isolation
+b) Lightweight
+c) Use OS of the host machine
+d) Start quickly
+e) Need less hardware resources
+
+#! Architecture of Docker
+* Docker uses a client server architecture
+* A kernel manages applications and hardware resources
+* Docker's architecture is designed to simplify the deployment and scaling of applications by packaging them in containers along with their dependencies. This ensures consistency across different stages of the application lifecycle, from development to testing to production. The combination of Docker images, containers, the Docker engine, and the client-server model provides a powerful and flexible platform for modern application development and deployment.
+
+#! Installing Docker
+* If you already have docker, find its version using "docker version"
+"
+PS D:\Ultimate-Docker-Series> docker version
+Client:
+ Version:           27.0.3
+ API version:       1.46
+ Go version:        go1.21.11
+ Git commit:        7d4bcd8
+ Built:             Sat Jun 29 00:03:32 2024
+ OS/Arch:           windows/amd64
+ Context:           desktop-linux
+"
+* Go to the official docker website and download docker using "download from docker hub" 
+* Then setup the WSL2 too if you encounter any issues.
+
+* To verify that Docker is installed correctly, open a Command Prompt window and type To verify that Docker is installed correctly, open a Command Prompt window and type docker run hello-world. This command downloads a test image and runs it in a container. When the container runs, it prints an informational message and exits.. This command downloads a test image and runs it in a container. When the container runs, it prints an informational message and exits.
+"
+PS D:\Ultimate-Docker-Series> docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+c1ec31eb5944: Pull complete
+Digest: sha256:1408fec50309afee38f3535383f5b09419e6dc0925bc69891e79d84cc4cdcec6
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub. (amd64)
+ 3. The Docker daemon created a new container from that image which runs the executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with: $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID: https://hub.docker.com/
+
+For more examples and ideas, visit: https://docs.docker.com/get-started/
+"
+
+#! Development Workflow
+1. We create a Dockerfile in the root of our project which contains the instructions to build the image. This image contains everything needed to run the application. 
+2. The image can contain:
+a) a cut-down OS
+b) a runtime environment
+c) application files
+d) third-party libraries
+e) environment variables
+f) config files
+
+* Once we have a image, we tell docker to start a container using that image.
+* We can then use that container to run our application.
+* docker run <image name> => This will start a container based on the image
+
+* Once we complete our application, we can create a image and push it to the registry i.e Docker Hub which is similar to the concept of Git and GitHub.
+* "docker push <image name>" => This will push the image to the registry
+* Then you can pull it to any machine using "docker pull <image name>"
