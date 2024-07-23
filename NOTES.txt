@@ -128,3 +128,79 @@ f) config files
 * Once we complete our application, we can create a image and push it to the registry i.e Docker Hub which is similar to the concept of Git and GitHub.
 * "docker push <image name>" => This will push the image to the registry
 * Then you can pull it to any machine using "docker pull <image name>"
+
+#! Docker in Action ( A small walkthrough )
+Steps:
+1. Start with an OS
+2. Install Node
+3. Copy app files
+4. Run "node app.js"
+
+a) Create a HELLO-DOCKER directory
+b) Create a app.js file with a console message.
+c) Test app.js working with "node app.js"
+d) Create a Dockerfile with instructions to build the image:
+"
+#! We are using # Use Node.js Alpine image as the base image from the DockerHub
+FROM node:alpine
+
+#! Copy all the files in the present directory to a new directory named "app" inside the container
+COPY . /app 
+
+#! Approach 1 (Run the command by giving the complete path)
+# CMD node /app/app.js   
+
+#! Approach 2 (Run the command by giving the relative path i.e set the working directory first, then run the command)
+#! Set the working directory inside the container to "/app"
+WORKDIR /app
+
+#! Run the command "node app.js"
+# CMD node app.js
+
+#! Run the command to start the application
+CMD ["node", "app.js"]
+"
+e) Now we need to build our image.
+f) "docker build -t hello-docker .\HELLO-DOCKER\" => This will build the image. 
+* -t means tag it with hello-docker.
+* .\HELLO-DOCKER\ means the directory where our Dockerfile is located.
+"
+PS D:\Ultimate-Docker-Series> docker build -t hello-docker .\HELLO-DOCKER\
+[+] Building 1.1s (8/8) FINISHED                                                                                                                                                                                                          docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                                      0.0s
+ => => transferring dockerfile: 664B                                                                                                                                                                                                                      0.0s 
+ => [internal] load metadata for docker.io/library/node:alpine                                                                                                                                                                                            1.0s 
+ => [internal] load .dockerignore                                                                                                                                                                                                                         0.0s 
+ => => transferring context: 2B                                                                                                                                                                                                                           0.0s 
+ => [internal] load build context                                                                                                                                                                                                                         0.0s 
+ => => transferring context: 57B                                                                                                                                                                                                                          0.0s 
+ => [1/3] FROM docker.io/library/node:alpine@sha256:be6983df6443f143f9e9ba8dff99b44c14556093abc8d1501064a1aff2c372d4                                                                                                                                      0.0s 
+ => CACHED [2/3] COPY . /app                                                                                                                                                                                                                              0.0s 
+ => CACHED [3/3] WORKDIR /app                                                                                                                                                                                                                             0.0s 
+ => exporting to image                                                                                                                                                                                                                                    0.0s 
+ => => exporting layers                                                                                                                                                                                                                                   0.0s 
+ => => writing image sha256:91df74adca9298f2a48b703c0c24871234b4f1b8a5c9361bc50fbf33baf78bd4                                                                                                                                                              0.0s 
+ => => naming to docker.io/library/hello-docker                                                                                                                                                                                                           0.0s 
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/veuycsvmzak1es37extj48e68
+
+What's next:
+    View a summary of image vulnerabilities and recommendations → docker scout quickview
+"
+g) Type "docker image ls" or "docker images" to see all the images we have created.
+"
+PS D:\Ultimate-Docker-Series> docker image ls
+REPOSITORY        TAG          IMAGE ID       CREATED         SIZE  
+hello-docker      latest       91df74adca92   6 minutes ago   151MB 
+mysql             8.0          6c54cbcf775a   3 weeks ago     572MB 
+redis             latest       9c893be668ac   2 months ago    116MB 
+redis             6.2-alpine   d21be8aaaa15   2 months ago    30.1MB
+rnwood/smtp4dev   latest       58668bdb6a17   2 months ago    300MB 
+rnwood/smtp4dev   v3           58668bdb6a17   2 months ago    300MB 
+hello-world       latest       d2c94e258dcb   14 months ago   13.3kB
+"
+h) Type "docker run hello-docker" to run the image.
+"
+PS D:\Ultimate-Docker-Series> docker run hello-docker
+Hello Docker!
+"
