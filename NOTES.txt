@@ -206,7 +206,7 @@ Hello Docker!
 "
 
 #* Section - 2 - Linux Command Line
-Docker is buidd on basic Linux concepts.
+Docker is build on basic Linux concepts.
 Most Docker related stuff are based on Linux commands.
 Linux is like English and a very powerful command line.
 
@@ -324,3 +324,54 @@ This APT has Super Cow Powers.
 ** Use "sudo" to run the commands as the root user.
 * Install python package => sudo apt install python3
 * To verify the installation of python => python3 --version
+
+#! Linux File System
+1. In Windows, we have "C:\" as the root directory. Inside it, we have directories such as "Program Files", "Users", etc.
+2. In Linux, we have "/" as the root directory. Inside it, we have directories such as:
+* "bin"
+* "boot"
+* "dev"
+* "etc"
+* "home"
+* "root"
+* "lib"
+* "var"
+* "proc", etc
+
+3. In Linux, everything is a file. We can create a file using the "touch" command.
+
+#! Navigating The File System
+1. Type "pwd" to print the present working directory.
+2. Type "ls" to list the files in the current directory.
+3. Type "ls -a" to list the files in the current directory with hidden files.
+4. Type "ls -1" to list the files in the current directory in single line format.
+5. Type "ls -l" to list the files in the current directory with details.
+6. Type "cd" to change the current directory.
+7. Type "cd bin" to change the current directory to "bin". "bin" contains all the binaries, libraries, etc.
+8. Type "cd /" to change the current directory to "/" i.e the root or base directory.
+9. Type "cd ~" to change the current directory to "~" i.e the /home directory but for root users, ~ means /root directory.
+For regular users, cd ~ changes the directory to /home/$USER.
+For the root user, cd ~ changes the directory to /root.
+
+#! Manipulating Files and Directories
+1. Type "mkdir <directory name>" to create a new directory.
+2. Type "mv <old file name> <new file name>" to rename a file.
+3. Type "rm <file name>" to delete a file.
+4. Type "touch <file name>" to create a new file.
+5. Type "touch file1.txt file2.txt file3.txt" to create multiple files.
+6. Type "mv hello.txt /abcd" to move the file "hello.txt" to the directory "/abcd"
+7. Type "rm -rf /abcd" to delete the directory "/abcd"
+rm: This is the basic command used to remove files or directories.
+-r or -R: This option tells rm to remove directories and their contents recursively. Without this option, rm would not remove directories.
+-f: This option forces the deletion of files and directories without prompting for confirmation. Normally, rm might ask for confirmation if a file is write-protected, but -f bypasses this check.
+/abcd: Specifies the target directory to be removed. In this case, it refers to a directory named abcd located at the root (/) of the filesystem.
+
+#! Editing and Viewing Files
+1. "apt install nano"
+2. "nano hello.txt"
+3. Type "cat hello.txt" to view the content of a file.
+4. Type "echo "Hello World" > hello.txt" to write a text to a file.
+5. Type "more hello.txt" to view the content of a file in multiple lines.
+6. Type "less hello.txt" to view the content of a file in multiple lines.
+7. Type "head -n 5 hello.txt" to view the first 5 lines of a file.
+8. Type "tail -n 5 hello.txt" to view the last 5 lines of a file.
