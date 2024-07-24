@@ -136,10 +136,10 @@ Steps:
 3. Copy app files
 4. Run "node app.js"
 
-a) Create a HELLO-DOCKER directory
-b) Create a app.js file with a console message.
-c) Test app.js working with "node app.js"
-d) Create a Dockerfile with instructions to build the image:
+1. Create a HELLO-DOCKER directory
+2. Create a app.js file with a console message.
+3. Test app.js working with "node app.js"
+4. Create a Dockerfile with instructions to build the image:
 "
 #! We are using # Use Node.js Alpine image as the base image from the DockerHub
 FROM node:alpine
@@ -160,8 +160,8 @@ WORKDIR /app
 #! Run the command to start the application
 CMD ["node", "app.js"]
 "
-e) Now we need to build our image.
-f) "docker build -t hello-docker .\HELLO-DOCKER\" => This will build the image. 
+5. Now we need to build our image.
+6. "docker build -t hello-docker .\HELLO-DOCKER\" => This will build the image. 
 * -t means tag it with hello-docker.
 * .\HELLO-DOCKER\ means the directory where our Dockerfile is located.
 "
@@ -187,7 +187,7 @@ View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux
 What's next:
     View a summary of image vulnerabilities and recommendations → docker scout quickview
 "
-g) Type "docker image ls" or "docker images" to see all the images we have created.
+7. Type "docker image ls" or "docker images" to see all the images we have created.
 "
 PS D:\Ultimate-Docker-Series> docker image ls
 REPOSITORY        TAG          IMAGE ID       CREATED         SIZE  
@@ -199,8 +199,128 @@ rnwood/smtp4dev   latest       58668bdb6a17   2 months ago    300MB
 rnwood/smtp4dev   v3           58668bdb6a17   2 months ago    300MB 
 hello-world       latest       d2c94e258dcb   14 months ago   13.3kB
 "
-h) Type "docker run hello-docker" to run the image.
+8. Type "docker run hello-docker" to run the image.
 "
 PS D:\Ultimate-Docker-Series> docker run hello-docker
 Hello Docker!
 "
+
+#* Section - 2 - Linux Command Line
+Docker is buidd on basic Linux concepts.
+Most Docker related stuff are based on Linux commands.
+Linux is like English and a very powerful command line.
+
+#! Linux Distribution
+1. They are open source software.
+2. They are free to use.
+3. Famous Distros: Ubuntu, Debian, Alpine, Fedora, CentOS
+4. We will be using Ubuntu
+
+#! Running Linux
+1. Go to DockerHub and search fot Ubuntu. The command to get it is "docker pull ubuntu"
+2. But we will use "docker run ubuntu" because it will start a container based on the image "ubuntu" but for the first time when the image is not found, it will execute "docker pull ubuntu" and then start the container of Ubuntu.
+"
+PS D:\Ultimate-Docker-Series> docker run ubuntu
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+9c704ecd0c69: Pull complete
+Digest: sha256:2e863c44b718727c860746568e1d54afd13b2fa71b160f5cd9058fc436217b30
+Status: Downloaded newer image for ubuntu:latest
+"
+3. Type "docker ps" to see all the running containers.
+4. Type "docker ps -a" to see all the containers that were stopped and are not running.
+"
+PS D:\Ultimate-Docker-Series> docker ps        
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS D:\Ultimate-Docker-Series> docker ps -a
+CONTAINER ID   IMAGE                    COMMAND                  CREATED              STATUS                          PORTS     NAMES
+8331306a8c1e   ubuntu                   "/bin/bash"              About a minute ago   Exited (0) About a minute ago             interesting_jepsen
+459ddacf061f   hello-docker             "docker-entrypoint.s…"   2 hours ago          Exited (0) 2 hours ago                    funny_wright      
+e280f4894d5b   hello-world              "/hello"                 19 hours ago         Exited (0) 19 hours ago                   wizardly_jackson  
+b5ff72a96c1e   redis                    "docker-entrypoint.s…"   5 days ago           Exited (0) 5 days ago                     wizardly_cray     
+5030f5746047   rnwood/smtp4dev:latest   "dotnet /app/Rnwood.…"   2 weeks ago          Exited (0) 2 weeks ago                    boring_bouman
+"
+5. Type "docker stop <container id>" to stop the container.
+6. Type "docker start <container id>" to start the container.
+
+7. Type "docker run -it ubuntu" to start the ubuntu container in an interactive mode.
+8. Type "docker run -it ubuntu bash" to start the ubuntu container in an interactive mode with bash shell.
+"
+PS D:\Ultimate-Docker-Series> docker run -it ubuntu
+root@a20f32bebd50:/# 
+"
+* By default, we are logged in as a root user. We can switch to another user using "sudo" command.
+* After the "@" sign, we have the name of the machine we are working on. Docker by default sets the id of the machine as the name of the container here.
+* After the ":" sign, we have the present directory which is root(/) for now.
+* The "#" sign means I have the highest privileges as I am a root user.
+"
+PS D:\Ultimate-Docker-Series> docker run -it ubuntu
+root@a20f32bebd50:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@a20f32bebd50:/# cd home/
+root@a20f32bebd50:/home#
+"
+
+#? Linux Commands:
+* echo => Prints a message
+* whoami => Prints the current user
+* pwd => Prints the present working directory
+* ls => Lists the files in the current directory
+* cd => Changes the current directory
+* echo $0 => Prints the path to bash
+* history => Prints the command history
+
+#! Managing Packages
+Some of the famous package managers are:
+* apt (default package manager in Ubuntu and other popular distros)
+* pip 
+* npm
+
+"
+PS D:\Ultimate-Docker-Series> docker run -it ubuntu
+root@c06cc73cc487:/# apt
+apt 2.7.14 (amd64)
+Usage: apt [options] command
+
+apt is a commandline package manager and provides commands for        
+searching and managing as well as querying information about packages.
+It provides the same functionality as the specialized APT tools,      
+like apt-get and apt-cache, but enables options more suitable for     
+interactive use by default.
+
+Most used commands:
+  list - list packages based on package names
+  search - search in package descriptions
+  show - show package details
+  install - install packages
+  reinstall - reinstall packages
+  remove - remove packages
+  autoremove - automatically remove all unused packages
+  update - update list of available packages
+  upgrade - upgrade the system by installing/upgrading packages
+  full-upgrade - upgrade the system by removing/installing/upgrading packages
+  edit-sources - edit the source information file
+  satisfy - satisfy dependency strings
+
+See apt(8) for more information about the available commands.
+Configuration options and syntax is detailed in apt.conf(5).
+Information about how to configure sources can be found in sources.list(5).
+Package and version choices can be expressed via apt_preferences(5).
+Security details are available in apt-secure(8).
+This APT has Super Cow Powers.
+"
+1. Type "apt list" to list all the installed packages.
+2. Type "apt search <package name>" to search in package descriptions.
+3. Type "apt show <package name>" to show package details.
+4. Type "apt install <package name>" to install packages.
+5. Type "apt reinstall <package name>" to reinstall packages.
+6. Type "apt remove <package name>" to remove packages.
+7. Type "apt autoremove" to automatically remove all unused packages.
+8. Type "apt update" to update list of available packages.
+9. Type "apt upgrade" to upgrade the system by installing/upgrading packages.
+10. Type "apt full-upgrade" to upgrade the system by removing/installing/upgrading packages.
+11. Type "apt list --upgradable" to list packages that can be upgraded.
+
+** Use "sudo" to run the commands as the root user.
+* Install python package => sudo apt install python3
+* To verify the installation of python => python3 --version
