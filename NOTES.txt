@@ -492,3 +492,313 @@ root@ac9b20fc086f:~# cat python-scripts-location.txt
 /usr/share/gcc/python/libstdcxx/__init__.py
 root@ac9b20fc086f:~#
 "
+
+#! Chaining Commands
+1. Use ";" to chain commands
+"
+root@ac9b20fc086f:~# mkdir test; cd test; echo test > test1.txt; echo done
+done
+root@ac9b20fc086f:~/test# ls
+test1.txt
+root@ac9b20fc086f:~/test# cat test1.txt 
+test
+root@ac9b20fc086f:~/test#
+"
+But this command will fail for mkdir test but the other commands will get executed, if we run the same command again
+"
+root@ac9b20fc086f:~# mkdir test; cd test; echo test > test1.txt; echo done
+done
+root@ac9b20fc086f:~/test# ls
+test1.txt
+root@ac9b20fc086f:~/test# cat test1.txt 
+test
+root@ac9b20fc086f:~/test# cd ..
+root@ac9b20fc086f:~# mkdir test; cd test; echo test > test1.txt; echo done
+mkdir: cannot create directory 'test': File exists
+done
+"
+2. To solve this issue, we will use "&&". This is a AND operator. This will execute the command only if the previous command is successful. If any previous command fails, the next command will not be executed.
+"
+root@ac9b20fc086f:~# mkdir test; cd test; echo test > test1.txt; echo done
+mkdir: cannot create directory 'test': File exists
+done
+root@ac9b20fc086f:~/test# ls
+test1.txt
+root@ac9b20fc086f:~/test# cd ..
+root@ac9b20fc086f:~# ls
+File123.txt  file1.txt  file2.txt  python-scripts-location.txt  test
+root@ac9b20fc086f:~# mkdir test && cd test && echo test > test1.txt && echo done
+mkdir: cannot create directory 'test': File exists
+"
+3. Use "||" to chain commands. This is a OR operator. So if the first command executes successfully, the next command will not be executed. If the first command fails, the next command will be executed.
+"
+root@ac9b20fc086f:~# mkdir test || echo "test directory already exists"
+mkdir: cannot create directory 'test': File exists
+test directory already exists
+root@ac9b20fc086f:~# mkdir test2 || echo "test directory already exists"
+root@ac9b20fc086f:~#
+"
+
+Ques) What is the difference between "&&" and "||"?
+Ans) The "&&" operator will execute the command only if the previous command is successful. The "||" operator will execute the command only if the previous command fails. They are the AND and OR operators respectively.
+
+4. We can also use piping (" | ") to chain commands. This is a vertical bar. The output of one command will be the input of the next command. This is called piping.
+Example -> echo hello > hello.txt | cat hello.txt  
+
+5. Use "\" to escape characters and go to the next line to write the command.
+
+#! Environment Variables
+1. Environment Variables are used to store secret key value pairs data in the system.
+2. Type "printenv" to see all the environment variables in the system
+"
+root@ac9b20fc086f:~# printenv
+HOSTNAME=ac9b20fc086f
+PWD=/root
+HOME=/root
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+TERM=xterm
+SHLVL=1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_=/usr/bin/printenv
+OLDPWD=/root/test
+"
+3. To see any specific environment variable we can use: "printenv VARIABLE_NAME"
+"
+root@ac9b20fc086f:~# printenv PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+"
+4. Another way to see any particular environment variable is: "echo $VARIABLE_NAME"
+"
+root@ac9b20fc086f:~# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+"
+
+#TODO => After typing "exit", the current session of our ubuntu container will be terminated. Type "docker ps" to see all the running containers. Type "docker ps -a" to see all the containers that were stopped and are not running. From the output of "docker ps -a" type "docker start -i <container id>" to start the container we were using before in interactive mode. Type "docker stop <container id>" to stop the container.
+
+5. Type "echo DB_USER=ayush >> .bashrc" to append and add a new environment variable to our .bashrc file.
+
+#! Managing Processes
+1. Type "ps" to see all the running processes. 
+2. Type "kill <process id>" to kill a particular process.
+"
+root@ac9b20fc086f:~# ps
+  PID TTY          TIME CMD 
+    1 pts/0    00:00:00 bash
+  248 pts/0    00:00:00 ps  
+root@ac9b20fc086f:~# kill 248
+"
+
+#! Managing Users
+1. Type "useradd" to see all the available options to use this command.
+"
+root@ac9b20fc086f:~# useradd  
+Usage: useradd [options] LOGIN
+       useradd -D
+       useradd -D [options]
+
+Options:
+      --badname                 do not check for bad names
+  -b, --base-dir BASE_DIR       base directory for the home directory of the
+                                new account
+      --btrfs-subvolume-home    use BTRFS subvolume for home directory
+  -c, --comment COMMENT         GECOS field of the new account
+  -d, --home-dir HOME_DIR       home directory of the new account
+  -D, --defaults                print or change default useradd configuration
+  -e, --expiredate EXPIRE_DATE  expiration date of the new account
+  -f, --inactive INACTIVE       password inactivity period of the new account
+  -F, --add-subids-for-system   add entries to sub[ud]id even when adding a system user
+  -g, --gid GROUP               name or ID of the primary group of the new
+                                account
+  -G, --groups GROUPS           list of supplementary groups of the new
+                                account
+  -h, --help                    display this help message and exit
+  -k, --skel SKEL_DIR           use this alternative skeleton directory
+  -K, --key KEY=VALUE           override /etc/login.defs defaults
+  -l, --no-log-init             do not add the user to the lastlog and
+                                faillog databases
+  -m, --create-home             create the user's home directory
+  -M, --no-create-home          do not create the user's home directory
+  -N, --no-user-group           do not create a group with the same name as
+                                the user
+  -o, --non-unique              allow to create users with duplicate
+                                (non-unique) UID
+  -p, --password PASSWORD       encrypted password of the new account
+  -r, --system                  create a system account
+  -R, --root CHROOT_DIR         directory to chroot into
+  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+  -s, --shell SHELL             login shell of the new account
+  -u, --uid UID                 user ID of the new account
+  -U, --user-group              create a group with the same name as the user
+  -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
+      --extrausers              Use the extra users database
+
+root@ac9b20fc086f:~#
+"
+2. Create a user named "ayush" and check the output of "cat /etc/passwd"
+"
+root@ac9b20fc086f:~# useradd -m ayush
+
+root@ac9b20fc086f:~# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+ayush:x:1001:1001::/home/ayush:/bin/sh
+"
+3. Type "usermod" to see all the options available for usermod
+"
+root@ac9b20fc086f:~# usermod
+Usage: usermod [options] LOGIN
+
+Options:
+  -a, --append                  append the user to the supplemental GROUPS
+                                mentioned by the -G option without removing        
+                                the user from other groups
+  -b, --badname                 allow bad names
+  -c, --comment COMMENT         new value of the GECOS field
+  -d, --home HOME_DIR           new home directory for the user account
+  -e, --expiredate EXPIRE_DATE  set account expiration date to EXPIRE_DATE
+  -f, --inactive INACTIVE       set password inactive after expiration
+                                to INACTIVE
+  -g, --gid GROUP               force use GROUP as new primary group
+  -G, --groups GROUPS           new list of supplementary GROUPS
+  -h, --help                    display this help message and exit
+  -l, --login NEW_LOGIN         new value of the login name
+  -L, --lock                    lock the user account
+  -m, --move-home               move contents of the home directory to the
+                                new location (use only with -d)
+  -o, --non-unique              allow using duplicate (non-unique) UID
+  -p, --password PASSWORD       use encrypted password for the new password        
+  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+  -r, --remove                  remove the user from only the supplemental GROUPS  
+                                mentioned by the -G option without removing        
+                                the user from other groups
+  -R, --root CHROOT_DIR         directory to chroot into
+  -s, --shell SHELL             new login shell for the user account
+  -u, --uid UID                 new UID for the user account
+  -U, --unlock                  unlock the user account
+  -v, --add-subuids FIRST-LAST  add range of subordinate uids
+  -V, --del-subuids FIRST-LAST  remove range of subordinate uids
+  -w, --add-subgids FIRST-LAST  add range of subordinate gids
+  -W, --del-subgids FIRST-LAST  remove range of subordinate gids
+  -Z, --selinux-user SEUSER     new SELinux user mapping for the user account
+"
+4. Now to change the default configuration from shell to bash for user named "ayush", type "usermod -s /bin/bash ayush". Now check again using "cat /etc/passwd"
+
+5. Now in a new terminal, type "docker exec -it -u ayush <container_id_of_ubuntu> bash"
+"
+PS D:\Ultimate-Docker-Series> docker ps
+CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES
+ac9b20fc086f   ubuntu    "/bin/bash"   19 hours ago   Up 19 hours             jolly_dijkstra
+PS D:\Ultimate-Docker-Series> docker exec -it -u ayush ac9b20fc086f bash
+ayush@ac9b20fc086f:/$ pwd
+/
+ayush@ac9b20fc086f:/$ cd ~
+ayush@ac9b20fc086f:~$ pwd
+/home/ayush
+ayush@ac9b20fc086f:~$ 
+"
+6. Delete the user named "ayush" using "userdel ayush"
+
+#? Managing Users Summary
+1. To see all the users, use "cat /etc/passwd"
+2. To create a new user, use "useradd <username>"
+3. To change any default configuration of a user, use "usermod <configuration option> <username>"
+4. To delete a user, use "userdel <username>"
+5. To check the password of a particular user, use "cat /etc/passwd | grep <username>" or "grep <username> /etc/passwd"
+
+#TODO => A latest update for "useradd" is "adduser" which is more interactive and uses "useradd" under the hood. Use "apt install adduser" first.
+
+#! Managing Groups
+1. Groups are used to group users together. To see all the groups of the present user, use "groups"
+"
+root@ac9b20fc086f:~# groups
+root
+"
+
+#? Managing Groups Summary
+0. To see the present user's group, use "groups" and to see the groups of any other user, use "groups <username>"
+"
+root@ac9b20fc086f:/# groups
+root
+
+root@ac9b20fc086f:/# groups ayush
+ayush : ayush developers
+"
+1. To see all the groups, use "cat /etc/group"
+2. To create a new group, use "groupadd <groupname>"
+3. To add any user to this group, use "usermod -G <groupname> -a <username>"
+4. To change any default configuration of a group, use "groupmod <configuration option> <groupname>"
+5. To delete a group, use "groupdel <groupname>"
+
+#! File Permissions
+1. ".sh" entension files are called shell scripts.
+2. Type "echo echo hello ayush > deploy.sh" to create a file named "deploy.sh" with content "echo hello ayush"
+3. To check the permissions of a file, use "ls -l <filename>"
+"
+root@ac9b20fc086f:/home# ls -l
+total 12
+drwxr-x--- 2 ayush  ayush  4096 Jul 25 10:40 ayush
+-rw-r--r-- 1 root   root     17 Jul 25 10:43 deploy.sh
+drwxr-x--- 2 ubuntu ubuntu 4096 Jun  5 02:06 ubuntu
+
+root@ac9b20fc086f:/home# ls -l deploy.sh 
+-rw-r--r-- 1 root root 17 Jul 25 10:43 deploy.sh
+"
+* "d" => directory
+* "r" => read
+* "w" => write
+* "x" => execute
+* "-" => no permission
+* Each group has 3 permissions (rwx)
+* After "d", first comes the permission for "root", second comes the permission for group, third comes the permission for others.
+Example -> "drwxr-x--- 2 ayush  ayush  4096 Jul 25 10:40 ayush", here "d" means this is a directory, group 1 i.e the "ayush" has read write execute permissions, group 2 i.e the "ayush" group has read and execute permissions and group 3 i.e any anonymous users has no permissions.
+
+4. To execute the file, use "./deploy.sh"
+"
+root@ac9b20fc086f:/home# ./deploy.sh
+bash: ./deploy.sh: Permission denied
+"
+5. To change the permissions of a file, use "chmod <audience> <permissions> <filename>"
+#? "chmod u=rwx,g=rx,o=rx <filename>" => u for user, g for group, o for others. Provide permissions in "rwx" format.
+
+#? "r" => (4) => read
+#? "w" => (2) => write
+#? "x" => (1) => execute
+
+#? "chmod 755 deploy.sh" => u=rwx,g=rx,o=rx deploy.sh
+
+Example:
+"root@ac9b20fc086f:/home# ls -l
+total 12
+drwxr-x--- 2 ayush  ayush  4096 Jul 25 10:40 ayush    
+-rw-r--r-- 1 root   root     17 Jul 25 10:43 deploy.sh
+drwxr-x--- 2 ubuntu ubuntu 4096 Jun  5 02:06 ubuntu   
+root@ac9b20fc086f:/home# chmod 744 deploy.sh 
+
+root@ac9b20fc086f:/home# ls -l
+total 12
+drwxr-x--- 2 ayush  ayush  4096 Jul 25 10:40 ayush
+-rwxr--r-- 1 root   root     17 Jul 25 10:43 deploy.sh
+drwxr-x--- 2 ubuntu ubuntu 4096 Jun  5 02:06 ubuntu
+
+root@ac9b20fc086f:/home# ./deploy.sh 
+hello ayush
+
+root@ac9b20fc086f:/home#
+"
