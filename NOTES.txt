@@ -393,3 +393,102 @@ Ans) The ">" operator is used to redirect the output of a command to a file.
 
 Ques) I want to longlist the content in /etc directory to a file. How can I do that?
 Ans) The "ls -l /etc > list.txt" command will list the content of /etc directory to the file "list.txt"
+
+#! Searching for Text
+1. For searching a text in a file, use the "grep" command.
+2. For searching a text in multiple files and folders, use the "grep -r" command.
+3. "grep" => global regular expression search
+4. "grep hello file1.txt" will search for the text "hello" in the file "file1.txt".
+5. "grep -i hello file1.txt" will search for the text "hello" in the file "file1.txt" ignoring the case i.e case insensitive.
+
+Ques) What is the difference between "grep" and "grep -r"?
+Ans) The "grep" command searches for the text in a file. The "grep -r" command searches for the text in multiple files including directories and subdirectories.
+
+Ques) What is the difference between "grep -i" and "grep"?
+Ans) The "grep -i" command ignores the case i.e case insensitive.
+
+Ques) Find the line with the text "cloud" in the file "list_example.txt"?
+"
+root@ac9b20fc086f:/# grep cloud list_example.txt 
+drwxr-xr-x 2 root root    4096 Jun  5 02:06 cloud
+"
+
+Ques) Find "hello" in files starting with "file" keyword?
+"
+root@ac9b20fc086f:/# echo Hello > file1.txt
+root@ac9b20fc086f:/# echo Hello > file2.txt
+root@ac9b20fc086f:/# ls
+bin  boot  dev  etc  file1.txt  file2.txt  home  lib  lib64  list_example.txt  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ac9b20fc086f:/# grep -i hello file*
+file1.txt:Hello
+file2.txt:Hello
+root@ac9b20fc086f:/#
+"
+
+Ques) Find "hello" in any file or folder from the root directory?
+"
+root@ac9b20fc086f:/# grep -i hello .
+grep: .: Is a directory
+root@ac9b20fc086f:/# grep -i -r hello .
+./file1.txt:Hello
+./file2.txt:Hello
+./hello.txt:Hello
+root@ac9b20fc086f:/#
+"
+You can also combine the options like "-i -r" into one command. So final command => "grep -ir hello ."
+
+#! Finding Files and Directories
+1. "find" => find files and directories
+2. "find . -name hello.txt" will find the file "hello.txt" in the current directory.
+3. "find . -name *.txt" will find all the files with the extension ".txt" in the current directory.
+4. "find /etc" will find all the files in the "/etc" directory.
+5. To filter results by size, use the "-size" option.
+6. To filter results by type, use the "-type" option.
+* "find . -type f" will find all the files in the current directory.
+* "find . -type d" will find all the directories in the current directory.
+* "find . -type f -name "f*" will find all the files starting with name "f" in the current directory.
+"
+root@ac9b20fc086f:~# find . -type f -name "f*"
+./file1.txt
+./file2.txt
+"
+
+Ques) Find all the files inn the current directory starting with "f" or "F"?
+Ans) 'find . -type f -iname "f*" '
+
+"
+root@ac9b20fc086f:~# echo Test File > File123.txt
+root@ac9b20fc086f:~# ls
+File123.txt  file1.txt  file2.txt
+root@ac9b20fc086f:~# find -type f -iname "f*"
+./file1.txt
+./File123.txt
+./file2.txt
+root@ac9b20fc086f:~#
+"
+
+Ques) Find all the python scripts present in the linux system?
+Ans) Type 'find / -type f -name "*.py" ' in the command line
+"
+root@ac9b20fc086f:~# find / -type f -name "*.py"
+/usr/share/apport/package-hooks/source_shadow.py
+/usr/share/gdb/auto-load/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33-gdb.py
+/usr/share/gcc/python/libstdcxx/v6/__init__.py
+/usr/share/gcc/python/libstdcxx/v6/xmethods.py
+/usr/share/gcc/python/libstdcxx/v6/printers.py
+/usr/share/gcc/python/libstdcxx/__init__.py
+"
+
+Ques) Find all the python scripts present in the linux system and store the output in a file?
+Ans) Type 'find / -type f -name "*.py" > python-scripts-location.txt' in the command line
+"
+root@ac9b20fc086f:~# find / -type f -name "*.py" > python-scripts-location.txt
+root@ac9b20fc086f:~# cat python-scripts-location.txt 
+/usr/share/apport/package-hooks/source_shadow.py
+/usr/share/gdb/auto-load/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33-gdb.py
+/usr/share/gcc/python/libstdcxx/v6/__init__.py
+/usr/share/gcc/python/libstdcxx/v6/xmethods.py
+/usr/share/gcc/python/libstdcxx/v6/printers.py
+/usr/share/gcc/python/libstdcxx/__init__.py
+root@ac9b20fc086f:~#
+"
