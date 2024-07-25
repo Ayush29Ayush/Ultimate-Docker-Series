@@ -375,3 +375,21 @@ rm: This is the basic command used to remove files or directories.
 6. Type "less hello.txt" to view the content of a file in multiple lines.
 7. Type "head -n 5 hello.txt" to view the first 5 lines of a file.
 8. Type "tail -n 5 hello.txt" to view the last 5 lines of a file.
+
+#! Redirections
+1. Linux follows the concept of standard input and output.
+2. The standard input is the keyboard and the standard output is the screen. This is called "redirection".
+3. Standard input and standard output are connected to the terminal.
+4. The "redirection" operator or symbol is "<" and ">".
+* "echo hello > hello.txt" will write "hello" to the file "hello.txt".
+* "cat file1.txt > file2.txt" will copy the content of the file "file1.txt" to the file "file2.txt".
+* "cat file1.txt file2.txt > combined.txt" will copy the content of the files "file1.txt" and "file2.txt" to the file "combined.txt".
+
+Ques) What is the difference between ">>" and ">"?
+Ans) The ">>" operator appends the content to the file. The ">" operator overwrites the content of the file.
+
+Ques) I want to redirect the output of a command to a file. How can I do that?
+Ans) The ">" operator is used to redirect the output of a command to a file.
+
+Ques) I want to longlist the content in /etc directory to a file. How can I do that?
+Ans) The "ls -l /etc > list.txt" command will list the content of /etc directory to the file "list.txt"
