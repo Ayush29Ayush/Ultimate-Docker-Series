@@ -15,7 +15,7 @@ This is a zero to hero tutorial on how to build and run containers in docker.
 2. Keywords
 3. Play along with the commands
 
----------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #* Section - 1 - Docker Basics
 * What is Docker?
@@ -204,6 +204,8 @@ hello-world       latest       d2c94e258dcb   14 months ago   13.3kB
 PS D:\Ultimate-Docker-Series> docker run hello-docker
 Hello Docker!
 "
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #* Section - 2 - Linux Command Line
 Docker is build on basic Linux concepts.
@@ -802,3 +804,30 @@ hello ayush
 
 root@ac9b20fc086f:/home#
 "
+
+#! Run a container in an interactive mode
+"
+PS C:\Users\CZ0258\Desktop> docker ps
+CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES
+ac9b20fc086f   ubuntu    "/bin/bash"   21 hours ago   Up 21 hours             jolly_dijkstra
+"
+
+"
+PS C:\Users\CZ0258\Desktop> docker exec -it ac9b20fc086f /bin/bash
+root@ac9b20fc086f:/# ls
+bin  boot  dev  etc  file1.txt  file2.txt  home  lib  lib64  list_example.txt  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+"
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#* Section - 3 - (Build Images)
+* Creating Docker files
+* Versioning images
+* Sharing images
+* Saving and loading images
+* Reducing the image size
+* Speeding up builds
+
+#! Images and Containers
+* Image -> Image includes everything an application needs to run. It includes cut-down OS, third-party libraries, application files, env variables, etc.
+* Container -> Container is an isolated environment for executing an application. Kind off a virtual machine. It can be stopped & restarted. It is just a process.
